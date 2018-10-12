@@ -22,7 +22,7 @@ setuptools.setup(
         "Intended Audience :: System Administrators",
         "Topic :: System :: Systems Administration"
     ],
-    install_required=[
+    install_requires=[
         "selenium",
         "python-decouple",
         "chromedriver_binary"
