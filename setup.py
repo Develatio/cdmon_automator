@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cdmon_automator",
-    version="0.0.7",
+    version="0.0.8",
     author="Develatio",
     author_email="contact@develat.io",
     description="Library for CRUD operations on cdmon.com",
