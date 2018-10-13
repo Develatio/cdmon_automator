@@ -19,21 +19,21 @@ REDIRECT_TYPE_OPTS = {
 
 class CDMON():
     def __init__(self):
-        chrome_options = Options()
+        options = Options()
         if not config("DEBUG", cast=bool, default=False):
-            chrome_options.add_argument("--headless")
+            options.add_argument("--headless")
 
         if config("NETDEBUG", cast=bool, default=False):
             import http.client
             http.client.HTTPConnection.debuglevel = 1
 
-        chrome_options.add_argument("disable-infobars")
-        chrome_options.add_argument("--disable-extensions")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("disable-infobars")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
 
         self.driver = webdriver.Chrome(
-            chrome_options=chrome_options
+            chrome_options=options
         )
         self.driver.implicitly_wait(TIMEOUT)
 
