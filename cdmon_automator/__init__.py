@@ -159,13 +159,9 @@ class CDMON():
         domain_link = self.driver.find_element_by_link_text(self.domain_name)
         domain_link.click()
 
-        Alert(self.driver).accept()
-
     def _go_to_dns_entries(self):
         dns_entries_link = self.driver.find_element_by_link_text("Gestionar registros")
         dns_entries_link.click()
-
-        Alert(self.driver).accept()
 
     def _handle_save_record(self):
         self.driver.implicitly_wait(1)
