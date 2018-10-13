@@ -148,6 +148,7 @@ class CDMON():
         WebDriverWait(self.driver, TIMEOUT).until(document_complete())
         self.driver.execute_script("window.onbeforeunload = function() {};")
         self.driver.execute_script("window.alert = function() {};")
+        self.driver.execute_script("window.confirm = function() {};")
 
     def _find_record_row(self, record_type, record_name):
         expected_row = None
@@ -172,7 +173,11 @@ class CDMON():
     def _go_to_domain(self):
         self._disable_alerts()
 
-        domains_link = self.driver.find_element_by_link_text("Listado dominios")
+        domains_link = WebDriverWait(self.driver, TIMEOUT).until(
+            expected_conditions.element_to_be_clickable(
+                (By.LINK_TEXT, "Listado dominios")
+            )
+        )
         domains_link.click()
 
         self._disable_alerts()
