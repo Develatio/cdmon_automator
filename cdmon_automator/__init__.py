@@ -1,7 +1,7 @@
 import chromedriver_binary
 from decouple import config
 from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import WebDriverException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.alert import Alert
@@ -46,7 +46,7 @@ class CDMON():
         )
         self.driver.implicitly_wait(TIMEOUT)
         self.driver.set_page_load_timeout(TIMEOUT)
-        self.driver.set_window_size(1920, 1080)
+        self.driver.set_window_size(1920, 2160)
 
     def login(self):
         self.driver.get("https://admin.cdmon.com/es/acceso")
@@ -199,8 +199,9 @@ class CDMON():
 
         try:
             self.driver.find_element_by_xpath("//body/section[contains(@id, 'panel-alert')]//p[contains(text(), 'error')]")
+            self.driver.save_screenshot("error.png")
             raise Exception("Something went wrong!")
-        except Exception:
+        except NoSuchElementException as ex:
             pass
 
         self.driver.implicitly_wait(TIMEOUT)
@@ -213,8 +214,9 @@ class CDMON():
 
         try:
             self.driver.find_element_by_xpath("//body/section[contains(@id, 'panel-alert')]//p[contains(text(), 'error')]")
+            self.driver.save_screenshot("error.png")
             raise Exception("Something went wrong!")
-        except Exception:
+        except NoSuchElementException as ex:
             pass
 
         self.driver.implicitly_wait(TIMEOUT)
