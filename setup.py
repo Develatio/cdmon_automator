@@ -23,7 +23,7 @@ setuptools.setup(
         "Topic :: System :: Systems Administration"
     ],
     install_requires=[
-        "selenium",
+        "selenium==3.8.0",
         "python-decouple",
         "chromedriver_binary"
     ]
