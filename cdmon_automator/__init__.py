@@ -23,6 +23,10 @@ class CDMON():
         if not config("DEBUG", cast=bool, default=False):
             chrome_options.add_argument("--headless")
 
+        if config("NETDEBUG", cast=bool, default=False):
+            import http.client
+            http.client.HTTPConnection.debuglevel = 1
+
         self.driver = webdriver.Chrome(
             chrome_options=chrome_options
         )

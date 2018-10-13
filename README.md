@@ -47,12 +47,14 @@ USERNAME=
 PASSWORD=
 TIMEOUT=10
 DEBUG=True
+NETDEBUG=True
 ```
 
 * `USERNAME` - The username / email you use to login in cdmon.com
 * `PASSWORD` - The password
 * `TIMEOUT` - Make Selenium timeout after that amount of time (in seconds). Default `10`.
 * `DEBUG` - If set to `True` it will show Chrome's UI. Default `False`.
+* `NETDEBUG` - If set to `True` it will show `urllib` debug to stdout. Default `False`.
 
 ## Usage details
 
