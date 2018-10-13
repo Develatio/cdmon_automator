@@ -20,9 +20,9 @@ REDIRECT_TYPE_OPTS = {
 
 class document_complete(object):
     def __call__(self, driver):
-        script = 'return document.readyState'
+        script = "return document.readyState"
         try:
-            return driver.execute_script(script) == 'complete'
+            return driver.execute_script(script) == "complete"
         except WebDriverException:
             return False
 
@@ -144,6 +144,12 @@ class CDMON():
     """
     PRIVATE METHODS
     """
+    def _accept_alerts(self):
+        try:
+            Alert(self.driver).accept()
+        except Exception as ex:
+            pass
+
     def _disable_alerts(self):
         WebDriverWait(self.driver, TIMEOUT).until(document_complete())
         self.driver.execute_script("window.onbeforeunload = function() {};")
@@ -171,6 +177,7 @@ class CDMON():
         return expected_row
 
     def _go_to_domain(self):
+        self._accept_alerts()
         self._disable_alerts()
 
         domains_link = WebDriverWait(self.driver, TIMEOUT).until(
@@ -180,6 +187,7 @@ class CDMON():
         )
         domains_link.click()
 
+        self._accept_alerts()
         self._disable_alerts()
 
         domain_link = WebDriverWait(self.driver, TIMEOUT).until(
@@ -189,14 +197,17 @@ class CDMON():
         )
         domain_link.click()
 
+        self._accept_alerts()
         self._disable_alerts()
 
     def _go_to_dns_entries(self):
+        self._accept_alerts()
         self._disable_alerts()
 
         dns_entries_link = self.driver.find_element_by_link_text("Gestionar registros")
         dns_entries_link.click()
 
+        self._accept_alerts()
         self._disable_alerts()
 
     def _handle_save_record(self):
