@@ -27,6 +27,11 @@ class CDMON():
             import http.client
             http.client.HTTPConnection.debuglevel = 1
 
+        chrome_options.add_argument("disable-infobars")
+        chrome_options.add_argument("--disable-extensions")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+
         self.driver = webdriver.Chrome(
             chrome_options=chrome_options
         )
