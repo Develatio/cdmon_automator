@@ -1,12 +1,13 @@
 import chromedriver_binary
 from decouple import config
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.ui import WebDriverWait, Select
 
 TIMEOUT = config("TIMEOUT", cast=int, default=10)
 
@@ -16,6 +17,14 @@ REDIRECT_TYPE_OPTS = {
     "*": "2",     # Undefined subdomains
     "custom": "3" # Custom subdomain
 }
+
+class document_complete(object):
+    def __call__(self, driver):
+        script = 'return document.readyState'
+        try:
+            return driver.execute_script(script) == 'complete'
+        except WebDriverException:
+            return False
 
 class CDMON():
     def __init__(self):
@@ -36,9 +45,12 @@ class CDMON():
             chrome_options=options
         )
         self.driver.implicitly_wait(TIMEOUT)
+        self.driver.set_page_load_timeout(TIMEOUT)
+        self.driver.set_window_size(1920, 1080)
 
     def login(self):
         self.driver.get("https://admin.cdmon.com/es/acceso")
+        self._disable_alerts()
 
         user_field = self.driver.find_element_by_name("dades[usuario]")
         user_field.clear()
@@ -132,6 +144,11 @@ class CDMON():
     """
     PRIVATE METHODS
     """
+    def _disable_alerts(self):
+        WebDriverWait(self.driver, TIMEOUT).until(document_complete())
+        self.driver.execute_script("window.onbeforeunload = function() {};")
+        self.driver.execute_script("window.alert = function() {};")
+
     def _find_record_row(self, record_type, record_name):
         expected_row = None
         self.driver.implicitly_wait(0)
@@ -153,15 +170,29 @@ class CDMON():
         return expected_row
 
     def _go_to_domain(self):
+        self._disable_alerts()
+
         domains_link = self.driver.find_element_by_link_text("Listado dominios")
         domains_link.click()
 
-        domain_link = self.driver.find_element_by_link_text(self.domain_name)
+        self._disable_alerts()
+
+        domain_link = WebDriverWait(self.driver, TIMEOUT).until(
+            expected_conditions.element_to_be_clickable(
+                (By.LINK_TEXT, self.domain_name)
+            )
+        )
         domain_link.click()
 
+        self._disable_alerts()
+
     def _go_to_dns_entries(self):
+        self._disable_alerts()
+
         dns_entries_link = self.driver.find_element_by_link_text("Gestionar registros")
         dns_entries_link.click()
+
+        self._disable_alerts()
 
     def _handle_save_record(self):
         self.driver.implicitly_wait(1)
