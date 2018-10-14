@@ -244,7 +244,7 @@ fields. This is how cdmon.com works.
 
 This method will let you delete a record. Note that the search is based on
 the type and the name (subdomain), which means that it's error prone in
-situation when multiple records of the same type and on the same subdomain
+situations where multiple records of the same type and on the same subdomain
 exist, for example, multiple `TXT` records on the `@` domain.
 
 ### terminate()
