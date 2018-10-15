@@ -56,6 +56,14 @@ NETDEBUG=True
 * `DEBUG` - If set to `True` it will show Chrome's UI. Default `False`.
 * `NETDEBUG` - If set to `True` it will show `urllib` debug to stdout. Default `False`.
 
+## Where can I get it?
+
+From pypi! 
+
+```bash
+pip3 install cdmon_automator
+```
+
 ## Usage details
 
 ### work_on(domain_name)
